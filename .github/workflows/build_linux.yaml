@@ -41,6 +41,8 @@ jobs:
     permissions:
       # Needed permission to upload the release asset
       contents: write
+    env:
+      APT::Install-Recommends: false
 
     steps:
     - name: Checkout repository
@@ -48,14 +50,14 @@ jobs:
       with:
         submodules: 'recursive'
 
-    - name: Checkout Submodule
+    - name: Checkout submodule
       run: |
         git fetch --tags
         # TODO
         git checkout tags/v23.2.0
       working-directory: resources/EnergyPlus
 
-    - name: Set up Python ${{ env.Python_REQUIRED_VERSION }}
+    - name: Set up Python
       id: setup-python
       uses: actions/setup-python@v4
       with:
@@ -64,12 +66,12 @@ jobs:
     - name: Install OpenGL dependencies
       if: ${{ env.BUILD_COMPONENT_OPENGL }}
       run: |
-        sudo apt-get install --no-install-recommends libxkbcommon-x11-0 xorg-dev libgl1-mesa-dev
+        sudo apt-get install libxkbcommon-x11-0 xorg-dev libgl1-mesa-dev
 
     - name: Install Documentation dependencies
       if: ${{ env.BUILD_COMPONENT_DOCUMENTATION }}
       run: |
-        sudo apt-get install --no-install-recommends texlive texlive-xetex texlive-science 
+        sudo apt-get install texlive texlive-xetex texlive-science 
 
     - name: Build and package
       env:
