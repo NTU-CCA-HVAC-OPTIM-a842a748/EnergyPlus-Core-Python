@@ -1,10 +1,4 @@
-#import setuptools
 import skbuild
-
-
-# TODO
-# git checkout v23.2.0
-
 
 
 skbuild.setup(
@@ -14,12 +8,8 @@ skbuild.setup(
     #python_requires='>=3.8',
 
     package_dir={'': 'packages'},
-    packages=[
-        'energyplus_core'
-    ],
-    package_data={
-        'energyplus_core': ['**/*']
-    },
+    packages=['energyplus_core'],
+    package_data={'energyplus_core': ['**/*']},
 
     #install_requires=[],
     #extras_require={
@@ -30,19 +20,10 @@ skbuild.setup(
         'setuptools_scm'
     ],
 
-    cmake_install_dir='./packages/energyplus/lib/',
-    # TODO
-    #cmake_install_target='energyplusapi',
+    cmake_install_dir='./packages/energyplus_core/lib/',
     cmake_source_dir='./resources/EnergyPlus',
     cmake_args=[
         # NOTE required for pyenergyplus
         '-DBUILD_PACKAGE:BOOL=ON',
-        #'--target', 'energyplusapi'
-
-
-        '-DCMAKE_BUILD_TYPE:STRING=Release',
-        '-DBUILD_FORTRAN:BOOL=OFF', 
-        '-DDOCUMENTATION_BUILD:STRING=DoNotBuild',
-        '-DOPENGL_REQUIRED:BOOL=OFF',
     ],
 )
