@@ -11,9 +11,9 @@ env:
 
   BUILD_TYPE: Release
 
-  BUILD_COMPONENT_OPENGL: ${{ false }}
-  BUILD_COMPONENT_DOCUMENTATION: ${{ false }}
-  BUILD_COMPONENT_PYTHON_PLUGIN: ${{ false }}
+  BUILD_COMPONENT_OPENGL: 'false'
+  BUILD_COMPONENT_DOCUMENTATION: 'false'
+  BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
 
   BUILD_CONFIGURE_OPTIONS: |
     -D ENABLE_PCH:BOOL=OFF
@@ -42,7 +42,7 @@ jobs:
       # Needed permission to upload the release asset
       contents: write
     env:
-      APT::Install-Recommends: false
+      APT::Install-Recommends: 'false'
 
     steps:
     - name: Checkout repository
@@ -57,12 +57,12 @@ jobs:
         python-version: ${{ env.Python_REQUIRED_VERSION }}
 
     - name: Install OpenGL dependencies
-      if: env.BUILD_COMPONENT_OPENGL == ${{ true }}
+      if: env.BUILD_COMPONENT_OPENGL == 'true'
       run: |
         sudo apt-get install libxkbcommon-x11-0 xorg-dev libgl1-mesa-dev
 
     - name: Install Documentation dependencies
-      if: env.BUILD_COMPONENT_DOCUMENTATION == ${{ true }}
+      if: env.BUILD_COMPONENT_DOCUMENTATION == 'true'
       run: |
         sudo apt-get install texlive texlive-xetex texlive-science 
 
