@@ -20,7 +20,7 @@ env:
     -D BUILD_FORTRAN:BOOL=OFF
 
   BUILD_BUILD_OPTIONS: |
-    -j 2
+    -j
 
   Python_REQUIRED_VERSION: 3.8
 
