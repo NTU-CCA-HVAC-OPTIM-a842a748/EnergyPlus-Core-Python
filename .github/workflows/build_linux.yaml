@@ -78,7 +78,7 @@ jobs:
           -D Python_ROOT_DIR:PATH=$RUNNER_TOOL_CACHE/Python/${{ steps.setup-python.outputs.python-version }}/x64/
           
           -D DOCUMENTATION_BUILD:STRING=${{ env.BUILD_COMPONENT_DOCUMENTATION && 'BuildWithAll' || 'DoNotBuild' }}
-          -D TEX_INTERACTION:STRING="batchmode"
+          ${{ env.BUILD_COMPONENT_DOCUMENTATION && '-D TEX_INTERACTION:STRING="batchmode"' || '' }}
         SKBUILD_BUILD_OPTIONS: |
           ${{ env.BUILD_BUILD_OPTIONS }}
       run: |
