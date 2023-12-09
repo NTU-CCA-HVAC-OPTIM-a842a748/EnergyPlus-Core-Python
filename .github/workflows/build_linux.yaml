@@ -4,6 +4,7 @@ name: Build (Linux)
 #  push:
 #    tags:
 #      - '*'
+on: workflow_dispatch
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
