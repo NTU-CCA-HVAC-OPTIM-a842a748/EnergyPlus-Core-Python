@@ -11,7 +11,7 @@ env:
 
   BUILD_TYPE: Release
 
-  BUILD_COMPONENT_OPENGL: ${{ false }}
+  BUILD_COMPONENT_OPENGL: ${{ true }}
   BUILD_COMPONENT_DOCUMENTATION: ${{ false }}
   BUILD_COMPONENT_PYTHON_PLUGIN: ${{ false }}
 
