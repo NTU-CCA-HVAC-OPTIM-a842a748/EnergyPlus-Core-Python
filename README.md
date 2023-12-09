@@ -6,7 +6,7 @@ curl --parallel --location https://github.com/github/gitignore/raw/HEAD/{Python,
 
 ## Usage
 ```
-from energyplus import pyenergyplus
+from energyplus_core import pyenergyplus
 ```
 
 

@@ -32,6 +32,6 @@ jobs:
 
     steps:
     - name: Install OpenGL dependencies
-      if: env.BUILD_COMPONENT_OPENGL
+      if: env.BUILD_COMPONENT_OPENGL == 'true'
       run: |
         echo sudo apt-get install libxkbcommon-x11-0 xorg-dev libgl1-mesa-dev
