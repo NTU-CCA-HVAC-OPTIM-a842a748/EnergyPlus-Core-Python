@@ -1,8 +1,5 @@
 # energyplus-python
 
-```sh
-curl --parallel --location https://github.com/github/gitignore/raw/HEAD/{Python,Global/{Linux,Windows,macOS,Vim,SublimeText,VisualStudioCode}}.gitignore https://github.com/scikit-build/scikit-build-sample-projects/raw/master/.gitignore > .gitignore
-```
 
 ## Usage
 ```
@@ -20,6 +17,20 @@ sh scripts/resources/EnergyPlus/update_release.sh
 ```
 
 ## Build
+```sh
+SKBUILD_CONFIGURE_OPTIONS='
+  -D CMAKE_BUILD_TYPE:STRING=Release
+  -D BUILD_FORTRAN:BOOL=OFF
+  -D DOCUMENTATION_BUILD:STRING=DoNotBuild
+  -D OPENGL_REQUIRED:BOOL=OFF
+' \
+SKBUILD_BUILD_OPTIONS='
+  -j 128
+' \
+python3 -m build .
+#python3 -m install .
+```
+
 
 ```
 # SKBUILD_CONFIGURE_OPTIONS='-DCMAKE_BUILD_TYPE:STRING=Release'
@@ -38,9 +49,9 @@ git checkout tags/$(git describe --tags `git rev-list --tags --max-count=1`)
 pip install . -v
 
 python3 setup.py sdist bdist_wheel
-
-
 ```
+
+
 
 
 TODO ref https://scikit-build.readthedocs.io/en/latest/usage.html#environment-variable-configuration
