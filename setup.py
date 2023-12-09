@@ -14,8 +14,12 @@ skbuild.setup(
     #python_requires='>=3.8',
 
     package_dir={'': 'packages'},
-    packages=['energyplus'],
-    package_data={'energyplus': ['**/*']},
+    packages=[
+        'energyplus_core'
+    ],
+    package_data={
+        'energyplus_core': ['**/*']
+    },
 
     #install_requires=[],
     #extras_require={
