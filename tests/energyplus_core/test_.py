@@ -1,8 +1,6 @@
-import pytest
-
 class Test_:
     def test_(self):
-        import energyplus as pyenergyplus
+        from energyplus_core import pyenergyplus
         pyenergyplus.api.EnergyPlusAPI.api_version()
 
         api = pyenergyplus.api.EnergyPlusAPI()

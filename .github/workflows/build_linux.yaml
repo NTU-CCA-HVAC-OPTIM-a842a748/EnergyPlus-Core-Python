@@ -50,13 +50,6 @@ jobs:
       with:
         submodules: 'recursive'
 
-    - name: Checkout submodule
-      run: |
-        git fetch --tags
-        # TODO
-        git checkout tags/v23.2.0
-      working-directory: resources/EnergyPlus
-
     - name: Set up Python
       id: setup-python
       uses: actions/setup-python@v4
@@ -78,7 +71,7 @@ jobs:
         SKBUILD_CONFIGURE_OPTIONS: |
           ${{ env.BUILD_CONFIGURE_OPTIONS }}
 
-          -D CMAKE_BUILD_TYPE:STRING=${BUILD_TYPE}
+          -D CMAKE_BUILD_TYPE:STRING=${{ env.BUILD_TYPE }}
 
           -D LINK_WITH_PYTHON:BOOL=${{ env.BUILD_COMPONENT_PYTHON_PLUGIN && 'ON' || 'OFF' }} 
           -D Python_REQUIRED_VERSION:STRING=${{ steps.setup-python.outputs.python-version }}
@@ -98,7 +91,7 @@ jobs:
       with:
         files: dist/*
         token: ${{ secrets.GITHUB_TOKEN }}
-        #release_name: Release ${{ github.event.after }}
+        release_name: Release ${{ github.event.after }}
 
     #- name: TODO Publish to PyPI
     #  uses: pypa/gh-action-pypi-publish@v2

@@ -9,6 +9,15 @@ curl --parallel --location https://github.com/github/gitignore/raw/HEAD/{Python,
 from energyplus_core import pyenergyplus
 ```
 
+## Setup
+```sh
+git submodule update --init --recursive
+```
+
+## 
+```sh
+sh scripts/resources/EnergyPlus/update_release.sh
+```
 
 ## Build
 
@@ -23,6 +32,7 @@ git submodule update --init --recursive
 cd resources/EnergyPlus
 git fetch --tags
 git checkout tags/v23.2.0
+git checkout tags/$(git describe --tags `git rev-list --tags --max-count=1`)
 )
 
 pip install . -v
