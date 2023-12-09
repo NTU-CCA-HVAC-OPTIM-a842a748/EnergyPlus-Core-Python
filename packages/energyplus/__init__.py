@@ -30,6 +30,21 @@ with __utils.temporary_search_path(
     ),
     *__import__('sys').path,
 ):
+    import pyenergyplus
+
+    for submodule in [
+        '.api',
+        '.datatransfer',
+        '.func',
+        '.plugin',
+        '.runtime',
+        '.state',
+    ]:
+        __import__('importlib').import_module(
+            submodule,
+            package='pyenergyplus'
+        )
+
     from pyenergyplus import (
         api,
         datatransfer,
@@ -38,3 +53,7 @@ with __utils.temporary_search_path(
         runtime,
         state,
     )
+
+__all__ = [
+    pyenergyplus
+]

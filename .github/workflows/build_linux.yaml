@@ -1,0 +1,105 @@
+name: Build (Linux)
+
+#on:
+#  push:
+#    tags:
+#      - '*'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  BUILD_TYPE: Release
+
+  BUILD_COMPONENT_OPENGL: ${{ false }}
+  BUILD_COMPONENT_DOCUMENTATION: ${{ false }}
+  BUILD_COMPONENT_PYTHON_PLUGIN: ${{ false }}
+
+  BUILD_CONFIGURE_OPTIONS: |
+    -D ENABLE_PCH:BOOL=OFF
+    -D BUILD_FORTRAN:BOOL=OFF
+
+  BUILD_BUILD_OPTIONS: |
+    -j 2
+
+  Python_REQUIRED_VERSION: 3.8
+
+jobs:
+  release_linux:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.allow_failure }}
+    strategy:
+      # fail-fast: Default is true, switch to false to allow one platform to fail and still run others
+      fail-fast: false
+      matrix:
+        os: [ubuntu-20.04, ubuntu-22.04]
+        include:
+        - os: ubuntu-20.04
+          allow_failure: false
+        - os: ubuntu-22.04
+          allow_failure: false
+    permissions:
+      # Needed permission to upload the release asset
+      contents: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+
+    - name: Checkout Submodule
+      run: |
+        git fetch --tags
+        # TODO
+        git checkout tags/v23.2.0
+      working-directory: resources/EnergyPlus
+
+    - name: Set up Python ${{ env.Python_REQUIRED_VERSION }}
+      id: setup-python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.Python_REQUIRED_VERSION }}
+
+    - name: Install OpenGL dependencies
+      if: ${{ env.BUILD_COMPONENT_OPENGL }}
+      run: |
+        sudo apt-get install libxkbcommon-x11-0 xorg-dev libgl1-mesa-dev
+
+    - name: Install Documentation dependencies
+      if: ${{ env.BUILD_COMPONENT_DOCUMENTATION }}
+      run: |
+        sudo apt-get install texlive texlive-xetex texlive-science 
+
+    - name: Build and package
+      env:
+        SKBUILD_CONFIGURE_OPTIONS: |
+          ${{ env.BUILD_CONFIGURE_OPTIONS }}
+
+          -D CMAKE_BUILD_TYPE:STRING=${BUILD_TYPE}
+
+          -D LINK_WITH_PYTHON:BOOL=${{ env.BUILD_COMPONENT_PYTHON_PLUGIN && 'ON' || 'OFF' }} 
+          -D Python_REQUIRED_VERSION:STRING=${{ steps.setup-python.outputs.python-version }}
+          -D Python_ROOT_DIR:PATH=$RUNNER_TOOL_CACHE/Python/${{ steps.setup-python.outputs.python-version }}/x64/
+          
+          -D DOCUMENTATION_BUILD:STRING=${{ env.BUILD_COMPONENT_DOCUMENTATION && 'BuildWithAll' || 'DoNotBuild' }}
+          -D TEX_INTERACTION:STRING="batchmode"
+        SKBUILD_BUILD_OPTIONS: |
+          ${{ env.BUILD_BUILD_OPTIONS }}
+      run: |
+        python3 setup.py sdist bdist_wheel
+
+
+
+    - name: TODO Create GitHub Release
+      id: create_release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        release_name: Release ${{ github.event.after }}
+
+    #- name: TODO Publish to PyPI
+    #  uses: pypa/gh-action-pypi-publish@v2
+    #  with:
+    #    user: __token__
+    #    password: ${{ secrets.PYPI_API_TOKEN }}

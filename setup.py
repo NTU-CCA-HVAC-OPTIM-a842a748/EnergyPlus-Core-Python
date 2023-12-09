@@ -11,7 +11,7 @@ skbuild.setup(
     name='energyplus',
     version='0.1.0a0',
     description='EnergyPlus with Python Bindings',
-    python_requires='>=3.6',
+    python_requires='>=3.8',
 
     package_dir={'': 'packages'},
     packages=['energyplus'],

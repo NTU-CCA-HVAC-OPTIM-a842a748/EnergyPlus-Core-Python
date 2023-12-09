@@ -1,12 +1,21 @@
+[project]
+name = "energyplus"
+version = "0.1.0a0"
+description = "EnergyPlus with Python Bindings"
+
 [build-system]
-# NOTE required for glob pattern support
 requires = [
-    "setuptools >= 57.5.0", 
+    "setuptools>=57.5.0", # NOTE required for glob pattern support
     "scikit-build>=0.13",
     "cmake>=3.18",
     "wheel",
 ]
 build-backend = "setuptools.build_meta"
+
+[project.optional-dependencies]
+test = [
+    "pytest"
+]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
