@@ -11,7 +11,7 @@ env:
 
 jobs:
   main:
-    runs-on: windows-2019
+    runs-on: windows-latest
     # to move to windows-2022, just make sure to set the Visual Studio generator build to "17 2022"
     continue-on-error: ${{ matrix.allow_failure }}
     strategy:
