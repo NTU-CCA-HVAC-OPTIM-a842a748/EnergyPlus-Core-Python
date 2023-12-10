@@ -19,10 +19,10 @@ env:
     -D ENABLE_PCH:BOOL=OFF
     -D BUILD_FORTRAN:BOOL=OFF
 
-  BUILD_BUILD_OPTIONS: |
-    -j 8
+  #BUILD_BUILD_OPTIONS: |
+  #  -j 8
 
-  Python_REQUIRED_VERSION: 3.8
+  Python_REQUIRED_VERSION: 3.10
 
 jobs:
   main:
