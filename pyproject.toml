@@ -3,6 +3,7 @@ requires = [
     "setuptools>=57.5.0", # NOTE required for glob pattern support
     "scikit-build>=0.13",
     "cmake>=3.18",
+    "ninja",
 ]
 build-backend = "setuptools.build_meta"
 
