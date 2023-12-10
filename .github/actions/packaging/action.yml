@@ -1,5 +1,5 @@
-name: 'Build'
-description: 'Build repository'
+name: 'Packaging'
+description: 'Build and package repository'
 
 inputs:
   build-options: 
@@ -8,7 +8,7 @@ inputs:
     default: ''
 
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Set up Python
       id: setup-python

@@ -1,0 +1,16 @@
+name: 'Publishing'
+description: 'Publish packaged artifacts'
+
+inputs:
+  github_token:
+    description: 'secrets.GITHUB_TOKEN for GitHub release'
+    required: false
+    default: ''
+
+runs:
+  using: 'composite'
+  steps:
+    - name: GitHub release
+    
+      shell: sh
+      run: echo TODO
