@@ -60,7 +60,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: TODO Use local hello-world-action
-      uses: ./.github/actions/build
+      uses: ./.github/actions/package
 
     - name: TODO Create GitHub Release
       id: create_release
