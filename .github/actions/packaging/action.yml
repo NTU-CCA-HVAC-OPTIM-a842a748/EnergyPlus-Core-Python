@@ -39,6 +39,6 @@ runs:
       run: |
         # TODO
         set
-        python3 -m pip install --upgrade build ninja setuptools scikit-build cmake
+        python3 -m pip install --upgrade build ninja setuptools scikit-build cmake setuptools_scm
         python3 -m build --config-setting=--quiet --no-isolation ${{ inputs.build_options }}
 

@@ -84,7 +84,7 @@ jobs:
 
         #  --config-setting=--build-option=--generator='Visual Studio 16 2019'
 
-    - name: TODO Create GitHub Release
+    - name: TODO Publish to GitHub Release
       id: create_release
       uses: softprops/action-gh-release@v1
       with:
