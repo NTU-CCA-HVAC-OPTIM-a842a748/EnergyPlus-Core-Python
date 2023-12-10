@@ -75,7 +75,6 @@ jobs:
         BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
 
         BUILD_CONFIGURE_OPTIONS: |
-          -A ${{ matrix.vs-generator }}
           -D ENABLE_PCH:BOOL=ON
           -D BUILD_FORTRAN:BOOL=OFF
 
@@ -88,8 +87,8 @@ jobs:
         # TODO
         build_options: |
           --wheel
-          --config-setting=--generator='Visual Studio 16 2019'
-          --config-setting=-j1
+          --config-setting=--build-option=--generator='Visual Studio 16 2019'
+          --config-setting=--build-option=-j1
 
     - name: TODO Create GitHub Release
       id: create_release
