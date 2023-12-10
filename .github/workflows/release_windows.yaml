@@ -87,7 +87,7 @@ jobs:
 
       with:
         # TODO
-        build-options: |
+        build_options: |
           --wheel
           --config-setting=--build-option=--generator='Visual Studio 16 2019'
 
