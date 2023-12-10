@@ -22,7 +22,7 @@ env:
   BUILD_BUILD_OPTIONS: |
     -j 8
 
-  Python_REQUIRED_VERSION: 3.8
+  Python_REQUIRED_VERSION: 3.10
 
 jobs:
   main:
@@ -67,10 +67,6 @@ jobs:
 
     - name: Create packages
       uses: ./.github/actions/packaging
-      with:
-        # TODO
-        build_options: |
-          --no-isolation
 
     - name: TODO Create GitHub Release
       id: create_release
