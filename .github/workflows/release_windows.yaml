@@ -87,10 +87,9 @@ jobs:
 
       with:
         # TODO
-        build_options: |
+        build-options: |
           --wheel
           --config-setting=--build-option=--generator='Visual Studio 16 2019'
-          --config-setting=--build-option=-j1
 
     - name: TODO Create GitHub Release
       id: create_release
