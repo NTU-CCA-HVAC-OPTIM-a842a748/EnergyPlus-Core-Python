@@ -50,6 +50,11 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Configure MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: ${{ matrix.arch }}
+
     - name: Create packages
       uses: ./.github/actions/packaging
       env:
@@ -67,13 +72,14 @@ jobs:
 
         Python_REQUIRED_VERSION: '3.10'
 
-        CMAKE_GENERATOR: 'Visual Studio 16 2019'
+        #CMAKE_GENERATOR: 'Visual Studio 16 2019'
 
       with:
         # TODO
         build_options: |
           --wheel
-          --config-setting=--build-option=--generator='Visual Studio 16 2019'
+
+        #  --config-setting=--build-option=--generator='Visual Studio 16 2019'
 
     - name: TODO Create GitHub Release
       id: create_release
