@@ -1,0 +1,36 @@
+name: 'Build'
+description: 'Build repository'
+inputs:
+outputs:
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      id: setup-python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.Python_REQUIRED_VERSION }}
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+
+    - name: Build and package
+      env:
+        SKBUILD_CONFIGURE_OPTIONS: |
+          ${{ env.BUILD_CONFIGURE_OPTIONS }}
+
+          -D CMAKE_BUILD_TYPE:STRING=${{ env.BUILD_TYPE }}
+
+          -D LINK_WITH_PYTHON:BOOL=${{ env.BUILD_COMPONENT_PYTHON_PLUGIN == 'true' && 'ON' || 'OFF' }} 
+          -D Python_REQUIRED_VERSION:STRING=${{ steps.setup-python.outputs.python-version }}
+          
+          -D DOCUMENTATION_BUILD:STRING=${{ env.BUILD_COMPONENT_DOCUMENTATION == 'true' && 'BuildWithAll' || 'DoNotBuild' }}
+          ${{ env.BUILD_COMPONENT_DOCUMENTATION == 'true' && '-D TEX_INTERACTION:STRING="batchmode"' || '' }}
+        SKBUILD_BUILD_OPTIONS: |
+          ${{ env.BUILD_BUILD_OPTIONS }}
+      run: |
+        python3 -m pip install --upgrade build
+        python3 -m build
+

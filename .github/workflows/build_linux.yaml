@@ -55,7 +55,7 @@ jobs:
       run: |
         sudo apt-get install texlive texlive-xetex texlive-science 
 
-
+    # NOTE checkout to ensure action can be found 
     - name: Checkout repository
       uses: actions/checkout@v4
 
