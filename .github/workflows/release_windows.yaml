@@ -11,7 +11,7 @@ env:
 
 jobs:
   main:
-    runs-on: windows-latest
+    runs-on: windows-2019
     # to move to windows-2022, just make sure to set the Visual Studio generator build to "17 2022"
     continue-on-error: ${{ matrix.allow_failure }}
     strategy:
@@ -68,21 +68,17 @@ jobs:
           -D ENABLE_PCH:BOOL=ON
           -D BUILD_FORTRAN:BOOL=OFF
 
-        BUILD_BUILD_OPTIONS: |
-          -j 1
+        BUILD_BUILD_OPTIONS: ''
 
-        CMAKE_BUILD_PARALLEL_LEVEL: 1
+        #Python_REQUIRED_VERSION: '3.10'
 
-        Python_REQUIRED_VERSION: '3.10'
-
-        #CMAKE_GENERATOR: 'Visual Studio 16 2019'
+        CMAKE_BUILD_PARALLEL_LEVEL: 8
+        CMAKE_GENERATOR: 'Visual Studio 16 2019'
 
       with:
         # TODO
         build_options: |
           --wheel
-
-        #  --config-setting=--build-option=--generator='Visual Studio 16 2019'
 
     - name: TODO Publish to GitHub Release
       id: create_release

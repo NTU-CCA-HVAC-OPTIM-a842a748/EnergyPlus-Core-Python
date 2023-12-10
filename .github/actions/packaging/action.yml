@@ -2,6 +2,11 @@ name: 'Packaging'
 description: 'Build and package repository'
 
 inputs:
+  python_version:
+    description: 'Required Python version'
+    required: false
+    # NOTE 
+    default: '3.10'
   build_options: 
     description: 'Arguments passed to `python -m build`'
     required: false
@@ -14,7 +19,7 @@ runs:
       id: setup-python
       uses: actions/setup-python@v4
       with:
-        python-version: ${{ env.Python_REQUIRED_VERSION }}
+        python-version: ${{ inputs.python_version }}
 
     - name: Checkout repository
       uses: actions/checkout@v4
