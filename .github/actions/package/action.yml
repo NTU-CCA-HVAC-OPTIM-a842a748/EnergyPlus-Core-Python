@@ -17,6 +17,7 @@ runs:
         submodules: 'recursive'
 
     - name: Build and package
+      shell: sh
       env:
         SKBUILD_CONFIGURE_OPTIONS: |
           ${{ env.BUILD_CONFIGURE_OPTIONS }}
