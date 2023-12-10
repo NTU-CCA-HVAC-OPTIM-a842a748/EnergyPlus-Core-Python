@@ -55,6 +55,12 @@ jobs:
       run: |
         sudo apt-get install texlive texlive-xetex texlive-science 
 
+
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        submodules: 'recursive'
+
     - name: TODO Use local hello-world-action
       uses: ./.github/actions/build
 
