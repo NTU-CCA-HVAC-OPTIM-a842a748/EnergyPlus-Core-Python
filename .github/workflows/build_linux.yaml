@@ -73,12 +73,11 @@ jobs:
 
           -D CMAKE_BUILD_TYPE:STRING=${{ env.BUILD_TYPE }}
 
-          -D LINK_WITH_PYTHON:BOOL=${{ env.BUILD_COMPONENT_PYTHON_PLUGIN && 'ON' || 'OFF' }} 
+          -D LINK_WITH_PYTHON:BOOL=${{ env.BUILD_COMPONENT_PYTHON_PLUGIN == 'true' && 'ON' || 'OFF' }} 
           -D Python_REQUIRED_VERSION:STRING=${{ steps.setup-python.outputs.python-version }}
-          -D Python_ROOT_DIR:PATH=$RUNNER_TOOL_CACHE/Python/${{ steps.setup-python.outputs.python-version }}/x64/
           
-          -D DOCUMENTATION_BUILD:STRING=${{ env.BUILD_COMPONENT_DOCUMENTATION && 'BuildWithAll' || 'DoNotBuild' }}
-          ${{ env.BUILD_COMPONENT_DOCUMENTATION && '-D TEX_INTERACTION:STRING="batchmode"' || '' }}
+          -D DOCUMENTATION_BUILD:STRING=${{ env.BUILD_COMPONENT_DOCUMENTATION == 'true' && 'BuildWithAll' || 'DoNotBuild' }}
+          ${{ env.BUILD_COMPONENT_DOCUMENTATION == 'true' && '-D TEX_INTERACTION:STRING="batchmode"' || '' }}
         SKBUILD_BUILD_OPTIONS: |
           ${{ env.BUILD_BUILD_OPTIONS }}
       run: |
