@@ -37,6 +37,8 @@ runs:
         SKBUILD_BUILD_OPTIONS: |
           ${{ env.BUILD_BUILD_OPTIONS }}
       run: |
+        # TODO
+        set
         python3 -m pip install --upgrade build
         python3 -m build --config-setting=--quiet ${{ inputs.build_options }}
 

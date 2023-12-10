@@ -25,7 +25,7 @@ SKBUILD_CONFIGURE_OPTIONS='
   -D OPENGL_REQUIRED:BOOL=OFF
 ' \
 SKBUILD_BUILD_OPTIONS='
-  -j 128
+  -j 1
 ' \
 python3 -m build .
 #python3 -m install .
