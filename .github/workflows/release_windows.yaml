@@ -75,6 +75,7 @@ jobs:
         BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
 
         BUILD_CONFIGURE_OPTIONS: |
+          -G "Visual Studio 16 2019"
           -A ${{ matrix.vs-generator }}
           -D ENABLE_PCH:BOOL=ON
           -D BUILD_FORTRAN:BOOL=OFF
