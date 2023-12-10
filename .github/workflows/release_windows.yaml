@@ -58,9 +58,6 @@ jobs:
       # Needed permission to upload the release asset
       contents: write
 
-    env:
-      APT::Install-Recommends: 'false'
-
     steps:
     # TODO documentation support
 
@@ -70,6 +67,10 @@ jobs:
 
     - name: Create packages
       uses: ./.github/actions/packaging
+      with:
+        # TODO
+        build_options: |
+          --no-isolation
 
     - name: TODO Create GitHub Release
       id: create_release
