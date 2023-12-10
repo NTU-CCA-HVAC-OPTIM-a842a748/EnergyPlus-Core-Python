@@ -67,6 +67,23 @@ jobs:
 
     - name: Create packages
       uses: ./.github/actions/packaging
+      env:
+        BUILD_TYPE: Release
+
+        BUILD_COMPONENT_OPENGL: 'false'
+        BUILD_COMPONENT_DOCUMENTATION: 'false'
+        BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
+
+        BUILD_CONFIGURE_OPTIONS: |
+          -A ${{ matrix.vs-generator }}
+          -D ENABLE_PCH:BOOL=ON
+          -D BUILD_FORTRAN:BOOL=OFF
+
+        BUILD_BUILD_OPTIONS: |
+          -j 1
+
+        Python_REQUIRED_VERSION: '3.10'
+
       with:
         # TODO
         build_options: |
