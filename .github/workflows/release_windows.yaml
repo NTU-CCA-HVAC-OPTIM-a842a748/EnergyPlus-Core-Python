@@ -47,12 +47,12 @@ jobs:
         #   vs-generator: Win32
         #   package-arch: i386
         #   enable_hardened_runtime: OFF
-        - name: x64_hardened
-          arch: x64
-          allow_failure: false
-          vs-generator: x64
-          package-arch: x86_64-HardenedRuntime
-          enable_hardened_runtime: ON
+        #- name: x64_hardened
+        #  arch: x64
+        #  allow_failure: false
+        #  vs-generator: x64
+        #  package-arch: x86_64-HardenedRuntime
+        #  enable_hardened_runtime: ON
 
     permissions:
       # Needed permission to upload the release asset
