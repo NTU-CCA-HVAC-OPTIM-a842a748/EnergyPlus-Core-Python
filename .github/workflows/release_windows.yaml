@@ -22,7 +22,7 @@ env:
   BUILD_BUILD_OPTIONS: |
     -j 8
 
-  Python_REQUIRED_VERSION: 3.10
+  Python_REQUIRED_VERSION: '3.10'
 
 jobs:
   main:
