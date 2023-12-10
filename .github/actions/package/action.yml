@@ -1,7 +1,6 @@
 name: 'Build'
 description: 'Build repository'
-inputs:
-outputs:
+
 runs:
   using: "composite"
   steps:
