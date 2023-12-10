@@ -20,7 +20,7 @@ env:
     -D BUILD_FORTRAN:BOOL=OFF
 
   BUILD_BUILD_OPTIONS: |
-    -j
+    -j 8
 
   Python_REQUIRED_VERSION: 3.8
 
@@ -59,8 +59,8 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: TODO Use local hello-world-action
-      uses: ./.github/actions/package
+    - name: Create packages
+      uses: ./.github/actions/packaging
 
     - name: TODO Create GitHub Release
       id: create_release
