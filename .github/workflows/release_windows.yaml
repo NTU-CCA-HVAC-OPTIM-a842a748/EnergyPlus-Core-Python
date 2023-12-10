@@ -68,7 +68,8 @@ jobs:
           -D ENABLE_PCH:BOOL=ON
           -D BUILD_FORTRAN:BOOL=OFF
 
-        BUILD_BUILD_OPTIONS: ''
+        BUILD_BUILD_OPTIONS: |
+          --jobs 1
 
         Python_REQUIRED_VERSION: '3.10'
 
