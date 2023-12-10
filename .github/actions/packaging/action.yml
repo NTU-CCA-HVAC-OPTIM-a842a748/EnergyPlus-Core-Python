@@ -2,7 +2,7 @@ name: 'Packaging'
 description: 'Build and package repository'
 
 inputs:
-  build-options: 
+  build_options: 
     description: 'Arguments passed to `python -m build`'
     required: false
     default: ''
