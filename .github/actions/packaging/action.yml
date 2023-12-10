@@ -5,8 +5,12 @@ inputs:
   python_version:
     description: 'Required Python version'
     required: false
-    # NOTE 
+    # NOTE must be >=3.90 as older versions have trouble running `build`
     default: '3.10'
+  build_type:
+    description: 'CMake Build type'
+    required: false
+    default: 'Release'
   build_options: 
     description: 'Arguments passed to `python -m build`'
     required: false
@@ -32,7 +36,7 @@ runs:
         SKBUILD_CONFIGURE_OPTIONS: |
           ${{ env.BUILD_CONFIGURE_OPTIONS }}
 
-          -D CMAKE_BUILD_TYPE:STRING=${{ env.BUILD_TYPE }}
+          -D CMAKE_BUILD_TYPE:STRING=${{ inputs.build_type }}
 
           -D LINK_WITH_PYTHON:BOOL=${{ env.BUILD_COMPONENT_PYTHON_PLUGIN == 'true' && 'ON' || 'OFF' }} 
           -D Python_REQUIRED_VERSION:STRING=${{ steps.setup-python.outputs.python-version }}
@@ -44,6 +48,6 @@ runs:
       run: |
         # TODO
         set
-        python3 -m pip install --upgrade build ninja setuptools scikit-build cmake setuptools_scm
-        python3 -m build --config-setting=--quiet --no-isolation ${{ inputs.build_options }}
+        python3 -m pip install --upgrade build
+        python3 -m build --config-setting=--quiet ${{ inputs.build_options }}
 
