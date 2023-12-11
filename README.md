@@ -18,16 +18,17 @@ sh scripts/resources/EnergyPlus/update_release.sh
 
 ## Build
 ```sh
+SKBUILD_CMAKE_VERBOSE=true \
+SKBUILD_LOGGING_LEVEL="DEBUG" \
 SKBUILD_CONFIGURE_OPTIONS='
+  --log-level=TRACE
   -D CMAKE_BUILD_TYPE:STRING=Release
   -D BUILD_FORTRAN:BOOL=OFF
   -D DOCUMENTATION_BUILD:STRING=DoNotBuild
   -D OPENGL_REQUIRED:BOOL=OFF
 ' \
-SKBUILD_BUILD_OPTIONS='
-  -j 1
-' \
-python3 -m build .
+SKBUILD_BUILD_OPTIONS='' \
+python3 -m build . --config-setting=--quiet
 #python3 -m install .
 ```
 
@@ -159,4 +160,12 @@ TODO
     #    user: __token__
     #    password: ${{ secrets.PYPI_API_TOKEN }}
 
+```
+
+
+```
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      with:
+        detached: true
 ```

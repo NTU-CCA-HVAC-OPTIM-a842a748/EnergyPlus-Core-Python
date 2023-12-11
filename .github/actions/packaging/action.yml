@@ -50,12 +50,55 @@ runs:
     uses: actions/checkout@v4
     with:
       submodules: 'recursive'
+      clean: false
 
   - name: Set up Python
     id: setup-python
     uses: actions/setup-python@v4
     with:
       python-version: ${{ inputs.python_version }}
+
+  # Linux
+  - name: Set up build environment (Linux)
+    if: runner.os == 'Linux'
+    shell: sh
+    env: 
+      APT::Install-Recommends: 'false'
+      BUILD_COMPONENT_OPENGL: ${{ inputs.build_component_opengl }}
+      BUILD_COMPONENT_DOC: ${{ inputs.build_component_doc }}
+    run: |
+      # NOTE only tested on ubuntu
+      if [ "${BUILD_COMPONENT_OPENGL}" == 'true' ]; then
+        sudo apt-get install libxkbcommon-x11-0 xorg-dev libgl1-mesa-dev
+      fi
+      
+      if [ "${BUILD_COMPONENT_DOC}" == 'true' ]; then
+        sudo apt-get install texlive texlive-xetex texlive-science 
+      fi
+
+  # macOS
+  - name: Set up build environment (macOS)
+    if: runner.os == 'macOS'
+    shell: sh
+    env: 
+      BUILD_COMPONENT_OPENGL: ${{ inputs.build_component_opengl }}
+      BUILD_COMPONENT_DOC: ${{ inputs.build_component_doc }}
+    run: |
+      echo TODO
+
+  # Windows
+  - name: Configure MSVC (Windows)
+    uses: ilammy/msvc-dev-cmd@v1
+    if: runner.os == 'Windows'
+
+  - name: Set up build environment (Windows)
+    if: runner.os == 'Windows'
+    shell: sh
+    env:
+      BUILD_COMPONENT_OPENGL: ${{ inputs.build_component_opengl }}
+      BUILD_COMPONENT_DOC: ${{ inputs.build_component_doc }}
+    run: |
+      echo TODO
 
   - name: Build and package
     shell: sh

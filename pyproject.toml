@@ -1,16 +1,16 @@
 [build-system]
 requires = [
     "setuptools>=57.5.0", # NOTE required for glob pattern support
-    "scikit-build>=0.13",
-    "cmake>=3.18",
-    "ninja",
+    "scikit-build>=0.17",
+    "cmake>=3.27",
+    "ninja>=1.11.1.1",
 ]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "energyplus"
+name = "energyplus-core"
 version = "0.1.0a0"
-description = "EnergyPlus with Python Bindings"
+description = "EnergyPlus Kernel with Python Bindings"
 requires-python = ">=3.8"
 readme = "README.md"
 license = {file = "LICENSE.txt"}
@@ -23,5 +23,5 @@ test = [
 [tool.pytest.ini_options]
 minversion = "6.0"
 testpaths = [
-    "tests",
+    "./tests",
 ]

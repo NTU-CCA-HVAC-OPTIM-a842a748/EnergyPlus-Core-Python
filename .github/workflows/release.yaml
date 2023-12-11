@@ -1,4 +1,4 @@
-name: Release (Linux)
+name: Release
 
 #on:
 #  push:
@@ -7,18 +7,14 @@ name: Release (Linux)
 on: workflow_dispatch
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
   PYTHON_VERSION: '3.10'
 
-  BUILD_COMPONENT_OPENGL: 'false'
+  BUILD_COMPONENT_OPENGL: 'true'
   BUILD_COMPONENT_DOCUMENTATION: 'false'
   BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
 
 jobs:
   main:
-    runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.allow_failure }}
     strategy:
       # fail-fast: Default is true, switch to false to allow one platform to fail and still run others
       fail-fast: false
@@ -29,30 +25,28 @@ jobs:
         #  allow_failure: false
         - os: ubuntu-22.04
           allow_failure: false
+        - os: macos-12
+          allow_failure: false
+        - os: windows-2019
+          allow_failure: false
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.allow_failure }}
 
     permissions:
-      # Needed permission to upload the release asset
-      contents: write
-
-    env:
-      APT::Install-Recommends: 'false'
+      contents: write # NOTE for github release
+      id-token: write # NOTE for trusted publishing
 
     steps:
-    - name: Install OpenGL dependencies
-      if: env.BUILD_COMPONENT_OPENGL == 'true'
-      run: |
-        sudo apt-get install libxkbcommon-x11-0 xorg-dev libgl1-mesa-dev
-
-    - name: Install Documentation dependencies
-      if: env.BUILD_COMPONENT_DOCUMENTATION == 'true'
-      run: |
-        sudo apt-get install texlive texlive-xetex texlive-science 
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@v3
+      with:
+        detached: true
 
     # NOTE checkout to ensure actions can be found 
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Create packages
+    - name: Build packages
       id: packaging
       uses: ./.github/actions/packaging
       with:
@@ -63,12 +57,20 @@ jobs:
         build_options: |
           --wheel
 
-    - name: Test packages
+    - name: Archive built packages (wheels)
+      uses: actions/upload-artifact@v3
+      with:
+        name: artifact-wheels-${{ matrix.os }}
+        path: ${{ steps.packaging.outputs.files_wheels }}
+        if-no-files-found: error
+
+    - name: Test built packages
       uses: ./.github/actions/testing
       with:
         python_version: ${{ env.PYTHON_VERSION }}
         files_wheels: ${{ steps.packaging.outputs.files_wheels }}
 
+    # TODO use separate job
     - name: Publish packages
       uses: ./.github/actions/publishing
       with:
