@@ -1,0 +1,34 @@
+name: 'Testing'
+description: 'Test packaged artifacts'
+
+inputs:
+  python_version:
+    description: '[Python] Python version for testing'
+    required: false
+    default: '3.10'
+    
+  files_wheels:
+    description: '.whl (wheels) to test'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+
+  - name: Set up Python
+    uses: actions/setup-python@v4
+    with:
+      python-version: ${{ inputs.python_version }}
+
+  - name: Install packages (wheels)
+    shell: sh
+    run: |
+      python -m pip install ${{ inputs.files_wheels }}
+
+  - name: Test packages (wheels)
+    shell: sh
+    run: |
+      python -m pip install pytest
+      python -m pytest .

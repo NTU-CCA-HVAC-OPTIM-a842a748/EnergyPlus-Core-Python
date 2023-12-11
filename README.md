@@ -129,3 +129,34 @@ TODO
         asset_name: ${{ matrix.os }}_LinuxShellInstaller
 
 ```
+
+
+
+```
+
+    - name: Archive packages (wheels)
+      uses: actions/upload-artifact@v3
+      with:
+        name: wheels
+        path: ${{ steps.packaging.outputs.files_wheels }}
+        if-no-files-found: error
+
+```
+
+
+```
+    - name: TODO Create GitHub Release
+      id: create-release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*
+        token: ${{ secrets.GITHUB_TOKEN }}
+        release_name: Release ${{ github.event.after }}
+
+    #- name: TODO Publish to PyPI
+    #  uses: pypa/gh-action-pypi-publish@v2
+    #  with:
+    #    user: __token__
+    #    password: ${{ secrets.PYPI_API_TOKEN }}
+
+```

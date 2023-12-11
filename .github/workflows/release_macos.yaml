@@ -36,27 +36,15 @@ jobs:
 
     steps:
     # TODO documentation support
-    
+
     # NOTE checkout to ensure action can be found 
     - name: Checkout repository
       uses: actions/checkout@v4
 
     - name: Create packages
       uses: ./.github/actions/packaging
-      env:
-        BUILD_COMPONENT_OPENGL: 'false'
-        BUILD_COMPONENT_DOCUMENTATION: 'false'
-        BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
-
-        BUILD_CONFIGURE_OPTIONS: |
-          -D ENABLE_PCH:BOOL=ON
-          -D BUILD_FORTRAN:BOOL=OFF
-
-        BUILD_BUILD_OPTIONS: ''
-
       with:
         # TODO
-        build_type: Release
         build_options: |
           --wheel
 

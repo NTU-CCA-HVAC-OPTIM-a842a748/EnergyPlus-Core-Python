@@ -9,20 +9,11 @@ on: workflow_dispatch
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  BUILD_TYPE: Release
+  PYTHON_VERSION: '3.10'
 
   BUILD_COMPONENT_OPENGL: 'false'
   BUILD_COMPONENT_DOCUMENTATION: 'false'
   BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
-
-  BUILD_CONFIGURE_OPTIONS: |
-    -D ENABLE_PCH:BOOL=OFF
-    -D BUILD_FORTRAN:BOOL=OFF
-
-  #BUILD_BUILD_OPTIONS: |
-  #  -j 8
-
-  Python_REQUIRED_VERSION: 3.10
 
 jobs:
   main:
@@ -38,6 +29,7 @@ jobs:
           allow_failure: false
         - os: ubuntu-22.04
           allow_failure: false
+
     permissions:
       # Needed permission to upload the release asset
       contents: write
@@ -56,23 +48,31 @@ jobs:
       run: |
         sudo apt-get install texlive texlive-xetex texlive-science 
 
-    # NOTE checkout to ensure action can be found 
+    # NOTE checkout to ensure actions can be found 
     - name: Checkout repository
       uses: actions/checkout@v4
 
     - name: Create packages
+      id: packaging
       uses: ./.github/actions/packaging
-
-    - name: TODO Create GitHub Release
-      id: create_release
-      uses: softprops/action-gh-release@v1
       with:
-        files: dist/*
-        token: ${{ secrets.GITHUB_TOKEN }}
-        release_name: Release ${{ github.event.after }}
+        python_version: ${{ env.PYTHON_VERSION }}
+        build_component_opengl: ${{ env.BUILD_COMPONENT_OPENGL }}
+        build_component_python_plugin: ${{ env.BUILD_COMPONENT_PYTHON_PLUGIN }}
+        build_component_doc: ${{ env.BUILD_COMPONENT_DOCUMENTATION }}
+        build_options: |
+          --wheel
 
-    #- name: TODO Publish to PyPI
-    #  uses: pypa/gh-action-pypi-publish@v2
-    #  with:
-    #    user: __token__
-    #    password: ${{ secrets.PYPI_API_TOKEN }}
+    - name: Test packages
+      uses: ./.github/actions/testing
+      with:
+        python_version: ${{ env.PYTHON_VERSION }}
+        files_wheels: ${{ steps.packaging.outputs.files_wheels }}
+
+    - name: Publish packages
+      uses: ./.github/actions/publishing
+      with:
+        files_wheels: ${{ steps.packaging.outputs.files_wheels }}
+        dest_github_release: 'true'
+        dest_pypi_test: 'false'
+        dest_pypi: 'false'

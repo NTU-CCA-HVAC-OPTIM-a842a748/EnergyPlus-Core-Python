@@ -58,23 +58,12 @@ jobs:
     - name: Create packages
       uses: ./.github/actions/packaging
       env:
-        BUILD_COMPONENT_OPENGL: 'false'
-        BUILD_COMPONENT_DOCUMENTATION: 'false'
-        BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
-
-        BUILD_CONFIGURE_OPTIONS: |
-          -D ENABLE_PCH:BOOL=ON
-          -D BUILD_FORTRAN:BOOL=OFF
-
-        BUILD_BUILD_OPTIONS: ''
-
         # TODO NOTE ninja not supported
-        CMAKE_BUILD_PARALLEL_LEVEL: 8
+        CMAKE_BUILD_PARALLEL_LEVEL: 16
         CMAKE_GENERATOR: 'Visual Studio 16 2019'
 
       with:
         # TODO
-        build_type: Release
         build_options: |
           --wheel
 
