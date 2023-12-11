@@ -1,11 +1,15 @@
 [build-system]
-requires = [
-    "setuptools>=57.5.0", # NOTE required for glob pattern support
-    "scikit-build>=0.17",
-    "cmake>=3.27",
-    "ninja>=1.11.1.1",
-]
-build-backend = "setuptools.build_meta"
+requires = ["scikit-build-core"]
+build-backend = "scikit_build_core.build"
+
+[tool.scikit-build]
+cmake.source-dir = "resources/EnergyPlus"
+wheel.packages = ["packages/energyplus_core"]
+wheel.install-dir = "energyplus_core/lib"
+
+[tool.scikit-build.cmake.define]
+# NOTE required for pyenergyplus
+BUILD_PACKAGE = "ON"
 
 [project]
 name = "energyplus-core"

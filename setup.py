@@ -1,6 +1,8 @@
 import skbuild
 
 
+# TODO FIXME windows https://github.com/scikit-build/scikit-build/blob/9787cc2582311f731b3d0411b1175bd852db2ad6/skbuild/platform_specifics/abstract.py#L64
+
 skbuild.setup(
     #name='energyplus',
     #version='0.1.0a0',

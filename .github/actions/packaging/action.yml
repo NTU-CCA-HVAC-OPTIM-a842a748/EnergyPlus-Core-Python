@@ -101,8 +101,8 @@ runs:
       echo TODO
 
   # TODO rm
-  - name: Setup tmate session
-    uses: mxschmitt/action-tmate@v3
+  #- name: Setup tmate session
+  #  uses: mxschmitt/action-tmate@v3
 
   - name: Build and package
     shell: sh
@@ -128,4 +128,4 @@ runs:
         ${{ env.SKBUILD_BUILD_OPTIONS }}
     run: |
       python -m pip install --upgrade build
-      python -m build --config-setting=--quiet --outdir ${{ inputs.build_outdir }} ${{ inputs.build_options }}
+      python -m build --outdir ${{ inputs.build_outdir }} ${{ inputs.build_options }}

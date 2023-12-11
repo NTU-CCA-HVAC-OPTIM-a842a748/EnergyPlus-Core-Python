@@ -32,6 +32,19 @@ python3 -m build . --config-setting=--quiet
 #python3 -m install .
 ```
 
+```sh
+#SKBUILD_CMAKE_VERBOSE=true \
+#SKBUILD_LOGGING_LEVEL="DEBUG" \
+SKBUILD_CMAKE_ARGS='
+  -D CMAKE_BUILD_TYPE:STRING=Release;
+  -D BUILD_FORTRAN:BOOL=OFF;
+  -D DOCUMENTATION_BUILD:STRING=DoNotBuild;
+  -D OPENGL_REQUIRED:BOOL=OFF;
+' \
+python3 -m build . --wheel
+#python3 -m install .
+```
+
 
 ```
 # SKBUILD_CONFIGURE_OPTIONS='-DCMAKE_BUILD_TYPE:STRING=Release'
