@@ -67,14 +67,14 @@ runs:
 
         -D CMAKE_BUILD_TYPE:STRING=${{ inputs.build_type }}
 
-        -D OPENGL_REQUIRED:BOOL=${{ input.build_component_opengl == 'true' && 'ON' || 'OFF' }}
+        -D OPENGL_REQUIRED:BOOL=${{ inputs.build_component_opengl == 'true' && 'ON' || 'OFF' }}
 
-        -D BUILD_FORTRAN:BOOL=${{ input.build_component_fortran == 'true' && 'ON' || 'OFF' }}
+        -D BUILD_FORTRAN:BOOL=${{ inputs.build_component_fortran == 'true' && 'ON' || 'OFF' }}
 
-        -D LINK_WITH_PYTHON:BOOL=${{ input.build_component_python_plugin == 'true' && 'ON' || 'OFF' }} 
+        -D LINK_WITH_PYTHON:BOOL=${{ inputs.build_component_python_plugin == 'true' && 'ON' || 'OFF' }} 
         -D Python_REQUIRED_VERSION:STRING=${{ steps.setup-python.outputs.python-version }}
         
-        -D DOCUMENTATION_BUILD:STRING=${{ input.build_component_doc == 'true' && 'BuildWithAll' || 'DoNotBuild' }}
+        -D DOCUMENTATION_BUILD:STRING=${{ inputs.build_component_doc == 'true' && 'BuildWithAll' || 'DoNotBuild' }}
         ${{ env.BUILD_COMPONENT_DOCUMENTATION == 'true' && '-D TEX_INTERACTION:STRING="batchmode"' || '' }}
       
       SKBUILD_BUILD_OPTIONS: |
