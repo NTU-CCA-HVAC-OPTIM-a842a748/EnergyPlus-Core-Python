@@ -37,10 +37,10 @@ jobs:
       id-token: write # NOTE for trusted publishing
 
     steps:
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      with:
-        detached: true
+    #- name: Setup tmate session
+    #  uses: mxschmitt/action-tmate@v3
+    #  with:
+    #    detached: true
 
     # NOTE checkout to ensure actions can be found 
     - name: Checkout repository
