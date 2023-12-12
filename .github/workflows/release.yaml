@@ -34,7 +34,7 @@ env:
   ARTIFACT_NAME: 'packages'
 
 jobs:
-  build_and_test:
+  build-and-test:
     strategy:
       fail-fast: false
       matrix:
@@ -84,6 +84,7 @@ jobs:
         build_dir: ${{ steps.packaging.outputs.build_dir }}
 
   publish:
+    needs: [ build-and-test ]
     runs-on: ubuntu-latest
     continue-on-error: false
 
