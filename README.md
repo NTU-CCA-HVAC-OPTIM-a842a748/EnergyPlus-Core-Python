@@ -45,6 +45,17 @@ python3 -m build . --wheel
 #python3 -m install .
 ```
 
+```sh
+SKBUILD_LOGGING_LEVEL="DEBUG" \
+CMAKE_ARGS='
+  -D CMAKE_BUILD_TYPE:STRING=Release
+  -D BUILD_FORTRAN:BOOL=OFF
+  -D DOCUMENTATION_BUILD:STRING=DoNotBuild
+  -D OPENGL_REQUIRED:BOOL=OFF
+' \
+python3 -m build . --wheel
+```
+
 
 ```
 # SKBUILD_CONFIGURE_OPTIONS='-DCMAKE_BUILD_TYPE:STRING=Release'
@@ -186,3 +197,8 @@ TODO
 ## Versioning
 
 https://www.moritzkoerber.com/posts/versioning-with-setuptools_scm/
+
+
+## TODOs
+
+https://github.com/pypa/gh-action-pypi-publish/discussions/15
