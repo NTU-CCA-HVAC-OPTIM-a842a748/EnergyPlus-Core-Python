@@ -46,10 +46,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     continue-on-error: false
 
-    permissions:
-      contents: write # NOTE for github release
-      id-token: write # NOTE for trusted publishing
-
     steps:
     # NOTE checkout to ensure actions can be found 
     - name: Checkout repository
@@ -83,6 +79,10 @@ jobs:
     needs: [ build-and-test ]
     runs-on: ubuntu-latest
     continue-on-error: false
+    
+    permissions:
+      contents: write # NOTE for github release
+      id-token: write # NOTE for trusted publishing
 
     steps:
     # NOTE checkout to ensure actions can be found 
