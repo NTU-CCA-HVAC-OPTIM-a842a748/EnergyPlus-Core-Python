@@ -31,21 +31,19 @@ env:
   BUILD_COMPONENT_DOCUMENTATION: 'false'
   BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
 
+  ARTIFACT_NAME: 'packages'
+
 jobs:
-  main:
+  build_and_test:
     strategy:
-      # fail-fast: Default is true, switch to false to allow one platform to fail and still run others
       fail-fast: false
       matrix:
         include:
         - os: ubuntu-22.04
-          allow_failure: false
         - os: macos-12
-          allow_failure: false
         - os: windows-2019
-          allow_failure: false
     runs-on: ${{ matrix.os }}
-    continue-on-error: ${{ matrix.allow_failure }}
+    continue-on-error: false
 
     permissions:
       contents: write # NOTE for github release
@@ -75,7 +73,7 @@ jobs:
     - name: Archive built packages
       uses: actions/upload-artifact@v3
       with:
-        name: artifact-${{ matrix.os }}
+        name: ${{ env.ARTIFACT_NAME }}
         path: ${{ steps.packaging.outputs.build_dir }}
         if-no-files-found: error
 
@@ -85,12 +83,22 @@ jobs:
         python_version: ${{ env.PYTHON_VERSION }}
         build_dir: ${{ steps.packaging.outputs.build_dir }}
 
-    # TODO use separate job
+  publish:
+    runs-on: ubuntu-latest
+    continue-on-error: false
+
+    steps:
+    - name: Download archived built packages
+      id: downloading
+      uses: actions/download-artifact@v3
+      with:
+        name: ${{ env.ARTIFACT_NAME }}
+
     - name: Publish packages
       uses: ./.github/actions/publishing
       with:
         prerelease: ${{ inputs.prerelease }}
-        build_dir: ${{ steps.packaging.outputs.build_dir }}
+        build_dir: ${{ steps.downloading.outputs.download-path }}
         dest_github_release: ${{ inputs.dest_github_release }}
         dest_pypi_test: ${{ inputs.dest_pypi }}
         dest_pypi: ${{ inputs.dest_pypi }}
