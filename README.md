@@ -34,7 +34,7 @@ python3 -m build . --config-setting=--quiet
 
 ```sh
 #SKBUILD_CMAKE_VERBOSE=true \
-#SKBUILD_LOGGING_LEVEL="DEBUG" \
+SKBUILD_LOGGING_LEVEL="DEBUG" \
 SKBUILD_CMAKE_ARGS='
   -D CMAKE_BUILD_TYPE:STRING=Release;
   -D BUILD_FORTRAN:BOOL=OFF;
@@ -182,3 +182,7 @@ TODO
       with:
         detached: true
 ```
+
+## Versioning
+
+https://www.moritzkoerber.com/posts/versioning-with-setuptools_scm/

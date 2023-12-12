@@ -39,9 +39,9 @@ inputs:
     default: 'false'
 
 outputs:
-  files_wheels:
-    description: '[Files] Path(s) to .whl wheels'
-    value: ${{ inputs.build_outdir }}/*.whl
+  build_dir:
+    description: '[Build] Directory containing built packages'
+    value: ${{ inputs.build_outdir }}
 
 runs:
   using: 'composite'
@@ -59,46 +59,31 @@ runs:
       python-version: ${{ inputs.python_version }}
 
   # Linux
-  - name: Set up build environment (Linux)
-    if: runner.os == 'Linux'
+  - name: Install build dependency - OpenGL (Linux)
+    if: runner.os == 'Linux' && inputs.build_component_opengl == 'true'
     shell: sh
     env: 
       APT::Install-Recommends: 'false'
-      BUILD_COMPONENT_OPENGL: ${{ inputs.build_component_opengl }}
-      BUILD_COMPONENT_DOC: ${{ inputs.build_component_doc }}
     run: |
       # NOTE only tested on ubuntu
-      if [ "${BUILD_COMPONENT_OPENGL}" == 'true' ]; then
-        sudo apt-get install libxkbcommon-x11-0 xorg-dev libgl1-mesa-dev
-      fi
-      
-      if [ "${BUILD_COMPONENT_DOC}" == 'true' ]; then
-        sudo apt-get install texlive texlive-xetex texlive-science 
-      fi
-
-  # macOS
-  - name: Set up build environment (macOS)
-    if: runner.os == 'macOS'
+      sudo apt-get install libxkbcommon-x11-0 xorg-dev libgl1-mesa-dev
+  - name: Install build dependency - Documentation (Linux)
+    if: runner.os == 'Linux' && inputs.build_component_doc == 'true'
     shell: sh
     env: 
-      BUILD_COMPONENT_OPENGL: ${{ inputs.build_component_opengl }}
-      BUILD_COMPONENT_DOC: ${{ inputs.build_component_doc }}
+      APT::Install-Recommends: 'false'
     run: |
-      echo TODO
+      # NOTE only tested on ubuntu
+      sudo apt-get install texlive texlive-xetex texlive-science 
+
+  # macOS
+  # TODO install deps
 
   # Windows
   - name: Configure MSVC (Windows)
     uses: ilammy/msvc-dev-cmd@v1
     if: runner.os == 'Windows'
-
-  - name: Set up build environment (Windows)
-    if: runner.os == 'Windows'
-    shell: sh
-    env:
-      BUILD_COMPONENT_OPENGL: ${{ inputs.build_component_opengl }}
-      BUILD_COMPONENT_DOC: ${{ inputs.build_component_doc }}
-    run: |
-      echo TODO
+  # TODO install deps
 
   # TODO rm
   #- name: Setup tmate session
@@ -107,8 +92,10 @@ runs:
   - name: Build and package
     shell: sh
     env:
-      SKBUILD_CONFIGURE_OPTIONS: |
-        ${{ env.SKBUILD_CONFIGURE_OPTIONS }}
+      # NOTE use ninja for speed
+      CMAKE_GENERATOR: Ninja
+      CMAKE_ARGS: |
+        ${{ env.CMAKE_ARGS }}
 
         -D ENABLE_PCH:BOOL=ON
 
@@ -118,14 +105,11 @@ runs:
 
         -D BUILD_FORTRAN:BOOL=${{ inputs.build_component_fortran == 'true' && 'ON' || 'OFF' }}
 
-        -D LINK_WITH_PYTHON:BOOL=${{ inputs.build_component_python_plugin == 'true' && 'ON' || 'OFF' }} 
+        -D LINK_WITH_PYTHON:BOOL=${{ inputs.build_component_python_plugin == 'true' && 'ON' || 'OFF' }}
         -D Python_REQUIRED_VERSION:STRING=${{ steps.setup-python.outputs.python-version }}
         
         -D DOCUMENTATION_BUILD:STRING=${{ inputs.build_component_doc == 'true' && 'BuildWithAll' || 'DoNotBuild' }}
         ${{ env.BUILD_COMPONENT_DOCUMENTATION == 'true' && '-D TEX_INTERACTION:STRING="batchmode"' || '' }}
-      
-      SKBUILD_BUILD_OPTIONS: |
-        ${{ env.SKBUILD_BUILD_OPTIONS }}
     run: |
       python -m pip install --upgrade build
       python -m build --outdir ${{ inputs.build_outdir }} ${{ inputs.build_options }}
