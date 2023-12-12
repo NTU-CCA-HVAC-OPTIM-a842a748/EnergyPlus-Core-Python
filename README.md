@@ -52,3 +52,11 @@ https://www.moritzkoerber.com/posts/versioning-with-setuptools_scm/
 ## TODOs
 
 https://github.com/pypa/gh-action-pypi-publish/discussions/15
+
+```
+git add . 
+git commit -m sync
+git tag -a v0.1.0.dev0
+python -m setuptools_scm
+git push --follow-tags
+```
