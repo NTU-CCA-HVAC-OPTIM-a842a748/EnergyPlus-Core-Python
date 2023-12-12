@@ -85,10 +85,6 @@ runs:
     if: runner.os == 'Windows'
   # TODO install deps
 
-  # TODO rm
-  #- name: Setup tmate session
-  #  uses: mxschmitt/action-tmate@v3
-
   - name: Build and package
     shell: sh
     env:

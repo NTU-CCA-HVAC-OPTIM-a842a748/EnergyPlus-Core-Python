@@ -50,11 +50,6 @@ jobs:
       id-token: write # NOTE for trusted publishing
 
     steps:
-    #- name: Setup tmate session
-    #  uses: mxschmitt/action-tmate@v3
-    #  with:
-    #    detached: true
-
     # NOTE checkout to ensure actions can be found 
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -89,6 +84,10 @@ jobs:
     continue-on-error: false
 
     steps:
+    # NOTE checkout to ensure actions can be found 
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
     - name: Download archived built packages
       id: downloading
       uses: actions/download-artifact@v3

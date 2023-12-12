@@ -20,7 +20,8 @@ wheel.install-dir = "energyplus_core/lib"
 # NOTE required for pyenergyplus
 BUILD_PACKAGE = "ON"
 
-[tool.setuptools_scm]  # Section required
+# NOTE required section
+[tool.setuptools_scm]
 
 [project.optional-dependencies]
 test = ["pytest"]
