@@ -32,6 +32,7 @@ env:
   BUILD_COMPONENT_PYTHON_PLUGIN: 'false'
 
   ARTIFACT_NAME: 'packages'
+  ARTIFACT_DOWNLOAD_PATH: '_packages'
 
 jobs:
   build-and-test:
@@ -69,7 +70,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: ${{ env.ARTIFACT_NAME }}
-        path: ${{ steps.packaging.outputs.build_dir }}
+        path: ${{ steps.packaging.outputs.build_dir }}/*
         if-no-files-found: error
 
     - name: Test built packages
@@ -93,6 +94,7 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: ${{ env.ARTIFACT_NAME }}
+        path: ${{ env.ARTIFACT_DOWNLOAD_PATH }}
 
     - name: Publish packages
       uses: ./.github/actions/publishing
