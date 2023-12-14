@@ -3,11 +3,11 @@
 
 ## Directory
 - `resources/EnergyPlus`
-  TODO
+  EnergyPlus base repository
 
 ## Usage
 ```
-from energyplus_core import pyenergyplus
+from energyplus.core import pyenergyplus
 ```
 
 ## Setup
@@ -24,6 +24,7 @@ sh scripts/resources/EnergyPlus/update_release.sh
 ```sh
 #SKBUILD_CMAKE_VERBOSE=true \
 SKBUILD_LOGGING_LEVEL="DEBUG" \
+SKBUILD_BUILD_DIR='build/{wheel_tag}' \
 SKBUILD_CMAKE_ARGS='
   -D CMAKE_BUILD_TYPE:STRING=Release;
   -D BUILD_FORTRAN:BOOL=OFF;
