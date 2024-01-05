@@ -1,5 +1,9 @@
 # EnergyPlus-Python
 
+## Installation
+```sh
+python3 -m pip install --extra-index-url https://test.pypi.org/simple energyplus-core
+```
 
 ## Directory
 - `resources/EnergyPlus`
@@ -10,17 +14,17 @@
 from energyplus.core import pyenergyplus
 ```
 
-## Setup
+## Development
+- Clone the current repo
+- Clone the submodules
 ```sh
 git submodule update --init --recursive
 ```
-
-## 
+- (Optional) Update `resources/EnergyPlus` to latest tagged release
 ```sh
 sh scripts/resources/EnergyPlus/update_release.sh
 ```
-
-## Build
+- Package (Minimal wheel)
 ```sh
 #SKBUILD_CMAKE_VERBOSE=true \
 SKBUILD_LOGGING_LEVEL="DEBUG" \
@@ -32,32 +36,13 @@ SKBUILD_CMAKE_ARGS='
   -D OPENGL_REQUIRED:BOOL=OFF;
 ' \
 python3 -m build . --wheel
+#python3 -m build .
 #python3 -m pip install .
 ```
-
-TODO ref https://scikit-build.readthedocs.io/en/latest/usage.html#environment-variable-configuration
-
-
-```
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      with:
-        detached: true
-```
-
-## Versioning
-
-https://www.moritzkoerber.com/posts/versioning-with-setuptools_scm/
-
-
-## TODOs
-
-https://github.com/pypa/gh-action-pypi-publish/discussions/15
-
-```
-git add . 
-git commit -m sync
+- (Optional) Bump version
+```sh
 git tag -a v0.1.0.dev0
+# check tagged version
 python -m setuptools_scm
 git push --follow-tags
 ```
